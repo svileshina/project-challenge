@@ -1,5 +1,4 @@
 {
   "name": "dog-profile",
-  "private": true,
-  "dependencies": {}
+  "private": true
 }

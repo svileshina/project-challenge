@@ -2,10 +2,14 @@ require 'rails_helper'
 
 RSpec.describe DogsController, type: :controller do
   describe '#index' do
-    it 'displays recent dogs' do
-      2.times { create(:dog) }
+
+    before do
+      8.times { create(:dog) }
       get :index
-      expect(assigns(:dogs).size).to eq(2)
+    end
+
+    it 'displays the 5 recent dogs' do
+      expect(assigns(:dogs).size).to eq(5)
     end
   end
 end
