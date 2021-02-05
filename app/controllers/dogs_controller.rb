@@ -1,12 +1,12 @@
 class DogsController < ApplicationController
   before_action :set_dog, only: [:show, :edit, :update, :destroy]
+  before_action :set_like, only: [:show, :edit, :update]
 
   def index
     @dogs = Dog.page(params[:page])
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @dog = Dog.new
@@ -57,6 +57,10 @@ class DogsController < ApplicationController
     def set_dog
       @dog = Dog.find(params[:id])
       authorize @dog
+    end
+
+    def set_like
+      @like = Like.find_by(user_id: current_user.id, dog_id: @dog.id)
     end
 
     def dog_params

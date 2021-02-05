@@ -19,3 +19,17 @@ header {
   display: flex;
   justify-content: space-between;
 }
+
+.likes { 
+  a.empty {
+    .fa-heart {
+      color: grey;
+    }
+  }
+  a.full {
+    .fa-heart{
+      color: blue;
+    }
+  }
+}
+
