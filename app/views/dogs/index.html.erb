@@ -1,2 +1,7 @@
-<%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+<%= @dogs.each_slice(2) do |slice| %>
+  <% slice.each do |dog| %>
+    <%= render partial: "thumbnail", locals: { dog: dog } %>
+  <% end %>
+  <%= image_tag("ad.jpg") %>
+<% end %>
 <%= paginate @dogs %>
