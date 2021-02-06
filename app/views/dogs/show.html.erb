@@ -1,16 +1,19 @@
 <section>
-  <h2><%= @dog.name %></h2>
-  <%= render partial: 'like', locals: { dog: @dog }  %>
+  <div class="box">
+    <h1 class="title"><%= @dog.name %></h1>
+    <%= render partial: 'like', locals: { dog: @dog }  %>
+    <p><%= @dog.description %></p>
+
+    <% if policy(@dog).update? %>
+      <%= link_to "Edit #{@dog.name}'s Profile", edit_dog_path %>
+      <br>
+      <%= link_to "Delete #{@dog.name}'s Profile", dog_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </div>
 
   <% @dog.images.each do |image| %>
     <%= image_tag url_for(image), alt: "Photo of #{@dog.name}" %>
   <% end %>
 
-  <p><%= @dog.description %></p>
 
-  <% if policy(@dog).update? %>
-    <%= link_to "Edit #{@dog.name}'s Profile", edit_dog_path %>
-    <br>
-    <%= link_to "Delete #{@dog.name}'s Profile", dog_path, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
 </section>
