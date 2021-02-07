@@ -3,7 +3,10 @@ class DogsController < ApplicationController
   before_action :set_like, only: [:show]
 
   def index
-    @dogs = Dog.page(params[:page])
+    trending_time = "'now', '-1 HOUR'"
+    sorted_dogs = Dog.joins("LEFT JOIN likes on likes.dog_id = dogs.id AND likes.created_at >= datetime(#{trending_time})")
+                      .group(:id).order(Arel.sql("COUNT(likes.id) DESC"))
+    @dogs = sorted_dogs.page(params[:page])
   end
 
   def show; end
@@ -31,7 +34,6 @@ class DogsController < ApplicationController
   end
 
   def update
-    authorize @dog
     respond_to do |format|
       if @dog.update(dog_params)
         @dog.images.attach(params[:dog][:image]) if params[:dog][:image].present?
@@ -60,7 +62,7 @@ class DogsController < ApplicationController
     end
 
     def set_like
-      @like = Like.find_by(user_id: current_user.id, dog_id: @dog.id)
+      @like = Like.find_by(user_id: current_user.id, dog_id: @dog.id) if current_user
     end
 
     def dog_params
